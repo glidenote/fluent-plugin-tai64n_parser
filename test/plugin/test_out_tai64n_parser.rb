@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
 require 'test_helper'
-require 'time'
 
 class Tai64nParserOutputTest < Test::Unit::TestCase
 

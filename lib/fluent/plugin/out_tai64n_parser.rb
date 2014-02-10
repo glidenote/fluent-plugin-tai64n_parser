@@ -1,5 +1,3 @@
-require 'time'
-
 module Fluent
   class Tai64nParserOutput < Output
     include Fluent::HandleTagNameMixin
