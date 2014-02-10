@@ -1,5 +1,7 @@
 # fluent-plugin-tai64n_parser
 
+[![Build Status](https://travis-ci.org/glidenote/fluent-plugin-tai64n_parser.png?branch=master)](https://travis-ci.org/glidenote/fluent-plugin-tai64n_parser)
+
 Fluentd plugin to parse TAI64N format.
 
 ## Installation
