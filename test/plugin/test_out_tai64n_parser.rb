@@ -47,16 +47,16 @@ class Tai64nParserOutputTest < Test::Unit::TestCase
 
   def test_filter_record_bad_parameters
     d = create_driver(%[
-      key            time
+      key            tai64n
       add_tag_prefix extracted.
     ])
     tag    = 'test'
-    record = {'time' => BAD_TAI64N_TIME}
+    record = {'tai64n' => BAD_TAI64N_TIME}
 
     d.instance.filter_record('test', Time.now, record)
     assert_equal record['parsed_time'], nil
 
-    record = {'time' => "this is not a date"}
+    record = {'tai64n' => "this is not a date"}
     d.instance.filter_record('test', Time.now, record)
     assert_equal record['parsed_time'], nil
   end
