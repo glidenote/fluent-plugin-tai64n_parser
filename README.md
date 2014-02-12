@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/glidenote/fluent-plugin-tai64n_parser.png?branch=master)](https://travis-ci.org/glidenote/fluent-plugin-tai64n_parser)
 
-Fluentd plugin to parse TAI64N format.
+Fluentd plugin to parse [TAI64N format](http://cr.yp.to/libtai/tai64.html#tai64n).
 
 ## Installation
 
@@ -18,10 +18,11 @@ Exampe:
 
 ```
 <match test.**>
-  type tai64n_parser
+  type             tai64n_parser
 
-  key            tai64n
-  add_tag_prefix extracted.
+  key              tai64n
+  parsed_time_tag  parsed_time
+  add_tag_prefix   parsed.
 </match>
 ```
 
@@ -29,15 +30,15 @@ Assume following input is coming (indented):
 
 ``` js
 "test" => {
-  "tai64n" => "@4000000052f88ea32489532c"
+  "tai64n"      => "@4000000052f88ea32489532c"
 }
 ```
 
 then output becomes as below (indented):
 
 ``` js
-"extracted.test" => {
-  "tai64n" => "@4000000052f88ea32489532c"
+"parsed.test" => {
+  "tai64n"      => "@4000000052f88ea32489532c"
   "parsed_time" => "2014-02-10 17:32:25.612979500",
 }
 ```
@@ -52,4 +53,4 @@ then output becomes as below (indented):
 
 ### Copyright
 
-Copyright (c) 2014 Akira Maeda. See [LICENSE](LICENSE) for details.
+Copyright (c) 2014- Akira Maeda. See [LICENSE](LICENSE) for details.

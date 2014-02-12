@@ -14,7 +14,7 @@ module Fluent
           !add_tag_prefix    &&
           !add_tag_suffix
       )
-        raise ConfigError, "out_extract_query_params: At least one of remove_tag_prefix/remove_tag_suffix/add_tag_prefix/add_tag_suffix is required to be set."
+        raise ConfigError, "out_tai64n_parser: At least one of remove_tag_prefix/remove_tag_suffix/add_tag_prefix/add_tag_suffix is required to be set."
       end
     end
 
@@ -53,7 +53,7 @@ module Fluent
         record[parsed_time_tag] = record_time
 
       rescue ArgumentError => error
-        $log.warn("out_extract_query_params: #{error.message}")
+        $log.warn("out_tai64n_parser: #{error.message}")
       end
       super(tag, time, record)
     end

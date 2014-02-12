@@ -19,23 +19,23 @@ class Tai64nParserOutputTest < Test::Unit::TestCase
   def test_configure
     d = create_driver(%[
       key            test
-      add_tag_prefix extracted.
+      add_tag_prefix parsed.
     ])
     assert_equal 'test', d.instance.key
-    assert_equal 'extracted.', d.instance.add_tag_prefix
+    assert_equal 'parsed.', d.instance.add_tag_prefix
 
     #Default Key
     d = create_driver(%[
-      add_tag_prefix extracted.
+      add_tag_prefix parsed.
     ])
     assert_equal 'tai64n', d.instance.key
-    assert_equal 'extracted.', d.instance.add_tag_prefix
+    assert_equal 'parsed.', d.instance.add_tag_prefix
   end
 
   def test_filter_record
     d = create_driver(%[
       key            tai64n
-      add_tag_prefix extracted.
+      add_tag_prefix parsed.
     ])
     tag    = 'test'
     record = {'tai64n' => TAI64N_TIME}
@@ -48,7 +48,7 @@ class Tai64nParserOutputTest < Test::Unit::TestCase
   def test_filter_record_bad_parameters
     d = create_driver(%[
       key            tai64n
-      add_tag_prefix extracted.
+      add_tag_prefix parsed.
     ])
     tag    = 'test'
     record = {'tai64n' => BAD_TAI64N_TIME}
@@ -64,21 +64,21 @@ class Tai64nParserOutputTest < Test::Unit::TestCase
   def test_emit
     d = create_driver(%[
       key            tai64n
-      add_tag_prefix extracted.
+      add_tag_prefix parsed.
     ])
 
     d.run { d.emit('tai64n' => TAI64N_TIME) }
     emits = d.emits
 
     assert_equal 1, emits.count
-    assert_equal 'extracted.test', emits[0][0]
+    assert_equal 'parsed.test', emits[0][0]
     assert_equal TAI64N_TIME, emits[0][2]['tai64n']
   end
 
   def test_emit_multi
     d = create_driver(%[
       key            tai64n
-      add_tag_prefix extracted.
+      add_tag_prefix parsed.
     ])
 
     d.run do
@@ -90,7 +90,7 @@ class Tai64nParserOutputTest < Test::Unit::TestCase
 
     assert_equal 3, emits.count
     0.upto(2) do |i|
-      assert_equal 'extracted.test', emits[i][0]
+      assert_equal 'parsed.test', emits[i][0]
       assert_equal TAI64N_TIME, emits[i][2]['tai64n']
     end
   end
@@ -98,14 +98,14 @@ class Tai64nParserOutputTest < Test::Unit::TestCase
   def test_emit_with_invalid_tai64n
     d = create_driver(%[
       key            tai64n
-      add_tag_prefix extracted.
+      add_tag_prefix parsed.
     ])
     wrong_time = 'wrong time'
     d.run { d.emit('tai64n' => wrong_time) }
     emits = d.emits
 
     assert_equal 1, emits.count
-    assert_equal 'extracted.test', emits[0][0]
+    assert_equal 'parsed.test', emits[0][0]
     assert_equal wrong_time, emits[0][2]['tai64n']
   end
 
