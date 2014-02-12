@@ -14,7 +14,7 @@ gem install fluent-plugin-tai64n_parser
 
 ## Configuration
 
-Example:
+### Basic Example:
 
 ```
 <match test.**>
@@ -43,7 +43,7 @@ then output becomes as below (indented):
 }
 ```
 
-Parse qmail log example:
+### Parse qmail log example:
 
 ```
 <match raw.qmail.sent>
