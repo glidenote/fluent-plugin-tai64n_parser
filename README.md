@@ -63,7 +63,8 @@ Parse qmail log example:
 </match>
 
 <match parsed.qmail.sent>
-  ...
+  type file
+  path /var/log/td-agent/qmail_tai64n_parsed.log
 </match>
 ```
 
