@@ -37,9 +37,15 @@ module Fluent
 
     def filter_record(tag, time, record)
       begin
-        if record[key] =~ /\@40000000([\da-f]{8})([\da-f]{8})/
-          t = Time.at($1.hex-10, $2.hex/1000.0)
-          record_time = t.strftime("%Y-%m-%d %X.%9N").to_s
+        # @4000000052f88ea32489532c
+        # 0123456789012345678901234
+        # 0         1         2
+        #   |-------------||------|
+        if record[key][0,2] == '@4' then
+          ts = record[key][2,15].hex
+          tf = record[key][17,8].hex
+          t = Time.at(ts-10,tf/1000.0)
+          record_time = t.strftime("%Y-%m-%d %X.%9N")
         else
           record_time = nil
         end
