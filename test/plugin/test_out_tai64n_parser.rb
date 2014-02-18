@@ -19,9 +19,11 @@ class Tai64nParserOutputTest < Test::Unit::TestCase
   def test_configure
     d = create_driver(%[
       key            test
+      output_key     parsed_time
       add_tag_prefix parsed.
     ])
     assert_equal 'test', d.instance.key
+    assert_equal 'parsed_time', d.instance.output_key
     assert_equal 'parsed.', d.instance.add_tag_prefix
 
     #Default Key
@@ -29,12 +31,14 @@ class Tai64nParserOutputTest < Test::Unit::TestCase
       add_tag_prefix parsed.
     ])
     assert_equal 'tai64n', d.instance.key
+    assert_equal 'tai64n', d.instance.output_key
     assert_equal 'parsed.', d.instance.add_tag_prefix
   end
 
   def test_filter_record
     d = create_driver(%[
       key            tai64n
+      output_key     parsed_time
       add_tag_prefix parsed.
     ])
     tag    = 'test'
@@ -48,6 +52,7 @@ class Tai64nParserOutputTest < Test::Unit::TestCase
   def test_filter_record_bad_parameters
     d = create_driver(%[
       key            tai64n
+      output_key     parsed_time
       add_tag_prefix parsed.
     ])
     tag    = 'test'
@@ -64,6 +69,7 @@ class Tai64nParserOutputTest < Test::Unit::TestCase
   def test_emit
     d = create_driver(%[
       key            tai64n
+      output_key     parsed_time
       add_tag_prefix parsed.
     ])
 
@@ -78,6 +84,7 @@ class Tai64nParserOutputTest < Test::Unit::TestCase
   def test_emit_multi
     d = create_driver(%[
       key            tai64n
+      output_key     parsed_time
       add_tag_prefix parsed.
     ])
 
@@ -98,6 +105,7 @@ class Tai64nParserOutputTest < Test::Unit::TestCase
   def test_emit_with_invalid_tai64n
     d = create_driver(%[
       key            tai64n
+      output_key     parsed_time
       add_tag_prefix parsed.
     ])
     wrong_time = 'wrong time'
