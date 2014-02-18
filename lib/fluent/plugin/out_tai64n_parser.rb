@@ -22,6 +22,17 @@ module Fluent
         raise ConfigError, "out_tai64n_parser: At least one of remove_tag_prefix/remove_tag_suffix/add_tag_prefix/add_tag_suffix is required to be set."
       end
       @output_key ||= @key
+
+      @tai64n_proc =
+        if @replace
+          Proc.new {|str|
+            tai64n, rest = str[0,25], str[25..-1]
+            parsed = parse_tai64n(tai64n)
+            parsed ? "#{parsed}#{rest}" : str
+          }
+        else
+          Proc.new {|tai64n| parse_tai64n(tai64n) }
+        end
     end
 
     def start
@@ -43,25 +54,23 @@ module Fluent
 
     def filter_record(tag, time, record)
       begin
-        # @4000000052f88ea32489532c
-        # 0123456789012345678901234
-        # 0         1         2
-        #   |-------------||------|
-        if record[key][0,2] == '@4' then
-          ts = record[key][2,15].hex
-          tf = record[key][17,8].hex
-          t = Time.at(ts-10,tf/1000.0)
-          record_time = t.strftime("%Y-%m-%d %X.%9N")
-        else
-          record_time = nil
-        end
-
-        record[output_key] = record_time
-
+        record[output_key] = @tai64n_proc.call(record[key])
       rescue ArgumentError => error
         log.warn("out_tai64n_parser: #{error.class} #{error.message} #{error.backtrace.first}")
       end
       super(tag, time, record)
+    end
+
+    def parse_tai64n(tai64n)
+      # @4000000052f88ea32489532c
+      # 0123456789012345678901234
+      # 0         1         2
+      #   |-------------||------|
+      return nil unless tai64n[0,2] == '@4'
+      ts = tai64n[2,15].hex
+      tf = tai64n[17,8].hex
+      t = Time.at(ts-10,tf/1000.0)
+      t.strftime("%Y-%m-%d %X.%9N")
     end
   end
 end

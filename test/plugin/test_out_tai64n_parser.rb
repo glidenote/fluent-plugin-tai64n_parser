@@ -4,6 +4,7 @@ require 'test_helper'
 class Tai64nParserOutputTest < Test::Unit::TestCase
 
   TAI64N_TIME = "@4000000052f88ea32489532c"
+  PARSED_TIME = "2014-02-10 17:32:25.612979500"
   BAD_TAI64N_TIME = "4000000052f88ea32489"
 
   def setup
@@ -115,6 +116,22 @@ class Tai64nParserOutputTest < Test::Unit::TestCase
     assert_equal 1, emits.count
     assert_equal 'parsed.test', emits[0][0]
     assert_equal wrong_time, emits[0][2]['tai64n']
+  end
+
+  def test_emit_with_replace
+    d = create_driver(%[
+      key             message
+      replace         true
+      parsed_time_tag message
+      add_tag_prefix parsed.
+    ])
+
+    d.run { d.emit('message' => "#{TAI64N_TIME}foobar") }
+    emits = d.emits
+
+    assert_equal 1, emits.count
+    assert_equal 'parsed.test', emits[0][0]
+    assert_equal "#{PARSED_TIME}foobar", emits[0][2]['message']
   end
 
 end
