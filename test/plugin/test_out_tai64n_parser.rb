@@ -60,11 +60,11 @@ class Tai64nParserOutputTest < Test::Unit::TestCase
     record = {'tai64n' => BAD_TAI64N_TIME}
 
     d.instance.filter_record('test', Time.now, record)
-    assert_equal record['parsed_time'], nil
+    assert_equal record['parsed_time'], BAD_TAI64N_TIME
 
     record = {'tai64n' => "this is not a date"}
     d.instance.filter_record('test', Time.now, record)
-    assert_equal record['parsed_time'], nil
+    assert_equal record['parsed_time'], "this is not a date"
   end
 
   def test_emit
@@ -121,7 +121,6 @@ class Tai64nParserOutputTest < Test::Unit::TestCase
   def test_emit_with_replace
     d = create_driver(%[
       key             message
-      replace         true
       parsed_time_tag message
       add_tag_prefix parsed.
     ])

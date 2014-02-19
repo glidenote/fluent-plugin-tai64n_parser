@@ -22,17 +22,6 @@ module Fluent
         raise ConfigError, "out_tai64n_parser: At least one of remove_tag_prefix/remove_tag_suffix/add_tag_prefix/add_tag_suffix is required to be set."
       end
       @output_key ||= @key
-
-      @tai64n_proc =
-        if @replace
-          Proc.new {|str|
-            tai64n, rest = str[0,25], str[25..-1]
-            parsed = parse_tai64n(tai64n)
-            parsed ? "#{parsed}#{rest}" : str
-          }
-        else
-          Proc.new {|tai64n| parse_tai64n(tai64n) }
-        end
     end
 
     def start
@@ -54,11 +43,17 @@ module Fluent
 
     def filter_record(tag, time, record)
       begin
-        record[output_key] = @tai64n_proc.call(record[key])
+        record[output_key] = replace_tai64n(record[key])
       rescue ArgumentError => error
         log.warn("out_tai64n_parser: #{error.class} #{error.message} #{error.backtrace.first}")
       end
       super(tag, time, record)
+    end
+
+    def replace_tai64n(str)
+      tai64n, rest = str[0,25], str[25..-1]
+      parsed = parse_tai64n(tai64n)
+      parsed ? "#{parsed}#{rest}" : str
     end
 
     def parse_tai64n(tai64n)
