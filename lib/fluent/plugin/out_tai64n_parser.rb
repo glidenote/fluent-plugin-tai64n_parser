@@ -44,7 +44,7 @@ module Fluent
     def filter_record(tag, time, record)
       begin
         record[output_key] = replace_tai64n(record[key])
-      rescue ArgumentError => error
+      rescue => error
         log.warn("out_tai64n_parser: #{error.class} #{error.message} #{error.backtrace.first}")
       end
       super(tag, time, record)
@@ -53,7 +53,12 @@ module Fluent
     def replace_tai64n(str)
       tai64n, rest = str[0,25], str[25..-1]
       parsed = parse_tai64n(tai64n)
-      parsed ? "#{parsed}#{rest}" : str
+      if parsed
+        "#{parsed}#{rest}"
+      else
+        log.info("out_tai64n_parser: record['#{key}']='#{str}' does not start with valid tai64n")
+        str
+      end
     end
 
     def parse_tai64n(tai64n)
