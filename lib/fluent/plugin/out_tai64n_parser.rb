@@ -9,7 +9,7 @@ module Fluent
     end
 
     config_param :key, :string, :default => 'tai64n'
-    config_param :parsed_time_tag, :string, :default => 'parsed_time'
+    config_param :output_key, :string, :default => nil
 
     def configure(conf)
       super
@@ -21,6 +21,7 @@ module Fluent
       )
         raise ConfigError, "out_tai64n_parser: At least one of remove_tag_prefix/remove_tag_suffix/add_tag_prefix/add_tag_suffix is required to be set."
       end
+      @output_key ||= @key
     end
 
     def start
@@ -55,7 +56,7 @@ module Fluent
           record_time = nil
         end
 
-        record[parsed_time_tag] = record_time
+        record[output_key] = record_time
 
       rescue ArgumentError => error
         log.warn("out_tai64n_parser: #{error.class} #{error.message} #{error.backtrace.first}")
