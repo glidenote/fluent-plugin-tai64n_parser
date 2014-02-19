@@ -1,6 +1,6 @@
 Gem::Specification.new do |gem|
   gem.name          = 'fluent-plugin-tai64n_parser'
-  gem.version       = '0.0.1'
+  gem.version       = '0.1.0'
   gem.authors       = ['Akira Maeda','Naotoshi Seo']
   gem.email         = ['glidenote+github@gmail.com','sonots@gmail.com']
   gem.homepage      = 'https://github.com/glidenote/fluent-plugin-tai64n_parser'
