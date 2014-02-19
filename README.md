@@ -21,7 +21,7 @@ gem install fluent-plugin-tai64n_parser
   type             tai64n_parser
 
   key              tai64n
-  parsed_time_tag  parsed_time
+  output_key       parsed_time
   add_tag_prefix   parsed.
 </match>
 ```
@@ -58,7 +58,7 @@ then output becomes as below (indented):
   type             tai64n_parser
 
   key              tai64n
-  parsed_time_tag  parsed_time
+  output_key       parsed_time
   add_tag_prefix   parsed.
 </match>
 
