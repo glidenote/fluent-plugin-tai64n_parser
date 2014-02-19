@@ -1,8 +1,8 @@
 Gem::Specification.new do |gem|
   gem.name          = 'fluent-plugin-tai64n_parser'
   gem.version       = '0.0.1'
-  gem.authors       = ['Akira Maeda']
-  gem.email         = ['glidenote+github@gmail.com']
+  gem.authors       = ['Akira Maeda','Naotoshi Seo']
+  gem.email         = ['glidenote+github@gmail.com','sonots@gmail.com']
   gem.homepage      = 'https://github.com/glidenote/fluent-plugin-tai64n_parser'
   gem.description   = %q{Fluentd plugin to parse the tai64n format log.}
   gem.summary       = %q{Fluentd plugin to parse the tai64n format log.}
