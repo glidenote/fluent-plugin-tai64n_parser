@@ -3,6 +3,11 @@ module Fluent
     include Fluent::HandleTagNameMixin
     Fluent::Plugin.register_output('tai64n_parser', self)
 
+    # Define `log` method for v0.10.42 or earlier
+    unless method_defined?(:log)
+      define_method("log") { $log }
+    end
+
     config_param :key, :string, :default => 'tai64n'
     config_param :parsed_time_tag, :string, :default => 'parsed_time'
 
@@ -53,7 +58,7 @@ module Fluent
         record[parsed_time_tag] = record_time
 
       rescue ArgumentError => error
-        $log.warn("out_tai64n_parser: #{error.message}")
+        log.warn("out_tai64n_parser: #{error.class} #{error.message} #{error.backtrace.first}")
       end
       super(tag, time, record)
     end
