@@ -19,9 +19,8 @@ gem install fluent-plugin-tai64n_parser
 ```
 <match test.**>
   type             tai64n_parser
-
-  key              tai64n
-  output_key       parsed_time
+  
+  key              message
   add_tag_prefix   parsed.
 </match>
 ```
@@ -30,7 +29,7 @@ Assume following input is coming (indented):
 
 ``` js
 "test" => {
-  "tai64n"      => "@4000000052f88ea32489532c"
+  "message" => "@4000000052f88ea32489532c [FATAL] blah blah"
 }
 ```
 
@@ -38,8 +37,7 @@ then output becomes as below (indented):
 
 ``` js
 "parsed.test" => {
-  "tai64n"      => "@4000000052f88ea32489532c"
-  "parsed_time" => "2014-02-10 17:32:25.612979500",
+  "message" => "2014-02-10 17:32:25.612979500 [FATAL] blah blah"
 }
 ```
 
@@ -92,6 +90,34 @@ delivery_id":"9","parsed_time":"2014-02-12 13:50:11.947211500"}
 2014-02-12T13:50:11+09:00       parsed.qmail.sent       {"tai64n":"@4000000052fafd8d387554bc","message":"status: local 0/120 remote 0/60","parsed_time":"2014-02-12 13:50:11.947213500"}
 2014-02-12T13:50:11+09:00       parsed.qmail.sent       {"tai64n":"@4000000052fafd8d387554bc","message":"end msg 3890","key":"3890","parsed_time":"2014-02-12 13:50:11.947213500"}
 ```
+
+## Parameters
+
+- key *field\_key*
+
+    The target field key to parse tai64n. The first 25 characters are tried to parse.
+    If the characters are of tail64n format, convert to the time format as of `tai64nlocal` command.
+    If the characters are not of tai64n format, just pass through the input with info level messages on the log.
+
+- output\_key *field\_key*
+
+    The target field to output the parsed result. The default is equivalent with `key` which means to overwrite the `key` field. 
+
+- add_tag_prefix
+
+    Add tag prefix for output message
+
+- remove_tag_prefix
+
+    Remove tag prefix for output message
+
+- add_tag_suffix
+
+    Add tag suffix for output message
+
+- remove_tag_suffix
+
+    Remove tag suffix for output message
 
 ## Contributing
 
