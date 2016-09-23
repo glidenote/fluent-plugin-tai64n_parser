@@ -23,12 +23,13 @@ module Fluent
 
     def filter(tag, time, record)
       begin
-        record[output_key] = replace_tai64n(record[key])
+        record[output_key] = try_replace_tai64n(record[key])
       rescue => e
         log.warn("filter_tai64n_parser: #{e.class} #{e.message}")
         log.warn_backtrace
       end
+      record
     end
 
-  end
+  end if defined?(Filter) # Support only >= v0.12
 end

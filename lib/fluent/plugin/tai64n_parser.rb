@@ -1,7 +1,7 @@
 module Fluent
   module Plugin
     module Tai64nParser
-      def replace_tai64n(str)
+      def try_replace_tai64n(str)
         tai64n, rest = str[0,25], str[25..-1]
         parsed = parse_tai64n(tai64n)
         if parsed

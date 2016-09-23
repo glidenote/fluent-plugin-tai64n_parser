@@ -15,7 +15,5 @@ unless ENV.has_key?('VERBOSE')
   $log = nulllogger
 end
 
-require 'fluent/plugin/out_tai64n_parser'
-
 class Test::Unit::TestCase
 end

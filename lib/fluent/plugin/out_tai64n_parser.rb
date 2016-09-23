@@ -51,7 +51,7 @@ module Fluent
 
     def filter_record(tag, time, record)
       begin
-        record[output_key] = replace_tai64n(record[key])
+        record[output_key] = try_replace_tai64n(record[key])
       rescue => e
         log.warn("out_tai64n_parser: #{e.class} #{e.message}")
         log.warn_backtrace
