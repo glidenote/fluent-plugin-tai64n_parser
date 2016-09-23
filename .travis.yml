@@ -1,18 +1,15 @@
 # https://github.com/travis-ci/travis-ci/wiki/.travis.yml-options
 language: ruby
 rvm:
-  - 1.9.3
-  - 2.0.0
-
+  - 2.1.*
+  - 2.2.*
+  - 2.3.*
+gemfile:
+  - Gemfile
+  - Gemfile.fluentd.v0.12
+  - Gemfile.fluentd.v0.10
 before_install:
   - gem update bundler
-
-matrie:
-  allow_failures:
-    - rvm: 1.9.3
-    - rvm: 2.0.0
-
 env:
   - TZ="Asia/Tokyo"
-
 script: bundle exec rake test
