@@ -1,5 +1,4 @@
-# -*- encoding: utf-8 -*-
-require 'test_helper'
+require_relative '../test_helper'
 
 class Tai64nParserOutputTest < Test::Unit::TestCase
 
