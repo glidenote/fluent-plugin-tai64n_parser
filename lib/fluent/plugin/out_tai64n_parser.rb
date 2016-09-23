@@ -1,9 +1,9 @@
-require_relative 'tai64n_parser'
+require_relative 'tai64n_parser_mixin'
 
 module Fluent
   class Tai64nParserOutput < Output
     include Fluent::HandleTagNameMixin
-    include Fluent::Plugin::Tai64nParser
+    include Fluent::Tai64nParserMixin
     Fluent::Plugin.register_output('tai64n_parser', self)
 
     # Define `log` method for v0.10.42 or earlier

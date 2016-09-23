@@ -1,10 +1,11 @@
 require_relative '../test_helper'
-require 'fluent/plugin/tai64n_parser'
+require 'fluent/plugin/tai64n_parser_mixin'
+require 'logger'
 
 class Tai64nParserTest < Test::Unit::TestCase
 
   class Tai64nParser
-    include Fluent::Plugin::Tai64nParser
+    include Fluent::Tai64nParserMixin
 
     def log
       @log ||= Logger.new(logdev)

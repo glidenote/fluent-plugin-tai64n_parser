@@ -1,8 +1,8 @@
-require_relative 'tai64n_parser'
+require_relative 'tai64n_parser_mixin'
 
 module Fluent
   class Tai64nParserFilter < Filter
-    include Fluent::Plugin::Tai64nParser
+    include Fluent::Tai64nParserMixin
     Fluent::Plugin.register_filter('tai64n_parser', self)
 
     config_param :key, :string, :default => 'tai64n'
@@ -31,5 +31,5 @@ module Fluent
       record
     end
 
-  end if defined?(Filter) # Support only >= v0.12
-end
+  end
+end if defined?(Fluent::Filter) # Support only >= v0.12

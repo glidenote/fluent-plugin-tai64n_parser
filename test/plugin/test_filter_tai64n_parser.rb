@@ -55,4 +55,4 @@ class Tai64nParserFilterTest < Test::Unit::TestCase
     assert_equal PARSED_TIME, filtered_record['parsed_time']
   end
 
-end
+end if defined?(Fluent::Filter)
