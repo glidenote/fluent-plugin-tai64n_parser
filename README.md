@@ -39,7 +39,7 @@ then output becomes as below (indented):
 }
 ```
 
-### Output Plugin
+### Output Plugin (Old Style)
 
 ```
 <match test.**>
@@ -130,7 +130,7 @@ delivery_id":"9","parsed_time":"2014-02-12 13:50:11.947211500"}
 
     The target field to output the parsed result. The default is equivalent with `key` which means to overwrite the `key` field. 
 
-### Output Plugin
+### Output Plugin (Old Style)
 
 - key *field\_key*
 
