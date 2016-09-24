@@ -14,14 +14,39 @@ gem install fluent-plugin-tai64n_parser
 
 ## Configuration
 
-### Basic Example:
+### Filter Plugin
+
+```
+<filter test.**>
+  @type tai64n_parser
+  key   message
+</match>
+```
+
+Assume following input is coming (indented):
+
+``` js
+"test" => {
+  "message" => "@4000000052f88ea32489532c [FATAL] blah blah"
+}
+```
+
+then output becomes as below (indented):
+
+``` js
+"test" => {
+  "message" => "2014-02-10 17:32:25.612979500 [FATAL] blah blah"
+}
+```
+
+### Output Plugin
 
 ```
 <match test.**>
-  type             tai64n_parser
+  @type           tai64n_parser
   
-  key              message
-  add_tag_prefix   parsed.
+  key             message
+  add_tag_prefix  parsed.
 </match>
 ```
 
@@ -93,6 +118,20 @@ delivery_id":"9","parsed_time":"2014-02-12 13:50:11.947211500"}
 
 ## Parameters
 
+### Filter Plugin
+
+- key *field\_key*
+
+    The target field key to parse tai64n. The first 25 characters are tried to parse.
+    If the characters are of tail64n format, convert to the time format as of `tai64nlocal` command.
+    If the characters are not of tai64n format, just pass through the input with info level messages on the log.
+
+- output\_key *field\_key*
+
+    The target field to output the parsed result. The default is equivalent with `key` which means to overwrite the `key` field. 
+
+### Output Plugin
+
 - key *field\_key*
 
     The target field key to parse tai64n. The first 25 characters are tried to parse.
@@ -118,6 +157,10 @@ delivery_id":"9","parsed_time":"2014-02-12 13:50:11.947211500"}
 - remove_tag_suffix
 
     Remove tag suffix for output message
+
+## ChangeLog
+
+[CHANGELOG.md](./CHANGELOG.md)
 
 ## Contributing
 
